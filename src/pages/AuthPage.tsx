@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/features/auth";
 import { useNavigate } from "@/shared/routing";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
-import SiTelegram from "@icons-pack/react-simple-icons/icons/SiTelegram";
-import SiGoogle from "@icons-pack/react-simple-icons/icons/SiGoogle";
-import SiVk from "@icons-pack/react-simple-icons/icons/SiVk";
+import { SiTelegram, SiGoogle, SiVk } from "@icons-pack/react-simple-icons";
 
 const AuthPage = () => {
   const { login } = useAuth();

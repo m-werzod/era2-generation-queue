@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown, Clock, Zap } from "lucide-react";
-import { getModelIcon } from "@/shared/ui/era/ModelGlyph";
+import { ModelGlyph, getBrandEntry } from "@/shared/ui/era/ModelGlyph";
 
 export interface SelectorSubModel {
   id: string;
@@ -55,28 +55,9 @@ function getBadgeStyle(badge: string): { bg: string; color: string } {
   return { bg: "rgba(255,255,255,0.1)", color: "var(--text-secondary)" };
 }
 
-/* Provider dot colors */
-const PROVIDER_DOT_COLORS: Record<string, string> = {
-  "kling": "#ffb27a",
-  "seedance": "#34d399",
-  "veo": "#60a5fa",
-  "sora": "#ffffff",
-  "wan": "#4ade80",
-  "hailuo": "#f59e0b",
-  "vidu": "hsl(var(--primary))",
-  "nano-banana": "#facc15",
-  "midjourney": "#3b82f6",
-  "seedream": "#a78bfa",
-  "gpt-image": "#10b981",
-  "flux": "#f97316",
-  "runway": "#ff7a3d",
-  "imagen": "#60a5fa",
-  "higgsfield": "hsl(var(--primary))",
-  "kling-image": "#ffb27a",
-};
-
-function getProviderDotColor(providerId: string): string {
-  return PROVIDER_DOT_COLORS[providerId] || "hsl(var(--primary))";
+/* Provider dot color — reuses the same brand color as its real logo tile, so the small status dot always matches. */
+function getProviderDotColor(providerName: string): string {
+  return getBrandEntry(providerName)?.bg || "hsl(var(--primary))";
 }
 
 export function TwoPanelModelSelector({
@@ -156,24 +137,19 @@ export function TwoPanelModelSelector({
 
   return (
     <div ref={ref} className="relative">
-      {(() => {
-        const PillIcon = getModelIcon(currentProvider?.name || "");
-        return (
-          <button
-            ref={(node) => {
-              triggerRef.current = node;
-              if (triggerButtonRef) triggerButtonRef.current = node;
-            }}
-            onClick={() => setOpen(!open)}
-            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-[13px] whitespace-nowrap transition-colors"
-            style={{ background: "var(--bg-pill)", color: "var(--text-primary)", border: "1px solid var(--border-primary)" }}
-          >
-            <PillIcon size={14} style={{ color: "hsl(var(--primary))" }} />
-            <span className="truncate max-w-[180px]">{currentSub?.name || currentProvider?.name}</span>
-            <ChevronDown size={12} style={{ color: "var(--text-tertiary)" }} />
-          </button>
-        );
-      })()}
+      <button
+        ref={(node) => {
+          triggerRef.current = node;
+          if (triggerButtonRef) triggerButtonRef.current = node;
+        }}
+        onClick={() => setOpen(!open)}
+        className="inline-flex items-center gap-1.5 h-9 px-3 rounded-full text-[13px] whitespace-nowrap transition-colors"
+        style={{ background: "var(--bg-pill)", color: "var(--text-primary)", border: "1px solid var(--border-primary)" }}
+      >
+        <ModelGlyph name={currentProvider?.name || ""} size={20} />
+        <span className="truncate max-w-[180px]">{currentSub?.name || currentProvider?.name}</span>
+        <ChevronDown size={12} style={{ color: "var(--text-tertiary)" }} />
+      </button>
       {open && (
         <div
           ref={popupRef}
@@ -221,10 +197,7 @@ export function TwoPanelModelSelector({
                       color: isSelected ? "hsl(var(--primary))" : "var(--text-primary)",
                     }}
                   >
-                    {(() => {
-                      const PIcon = getModelIcon(p.name);
-                      return <PIcon size={14} style={{ color: isSelected ? "hsl(var(--primary))" : "var(--text-secondary)", flexShrink: 0 }} />;
-                    })()}
+                    <ModelGlyph name={p.name} size={20} className="shrink-0" />
                     <span style={{ fontSize: 13, fontWeight: 500, whiteSpace: "nowrap" }}>{p.name}</span>
                     {p.badge && (() => {
                       const s = getBadgeStyle(p.badge);
@@ -247,7 +220,7 @@ export function TwoPanelModelSelector({
               {hoverProvider?.subModels.map((s, i) => {
                 const isSelected = selectedSubModelId === s.id && selectedProviderId === hoverProvider.id;
                 const badgeStyle = s.badge ? getBadgeStyle(s.badge) : s.isNew ? getBadgeStyle("NEW") : null;
-                const dotColor = getProviderDotColor(hoverProvider.id);
+                const dotColor = getProviderDotColor(hoverProvider.name);
                 return (
                   <button
                     key={s.id}

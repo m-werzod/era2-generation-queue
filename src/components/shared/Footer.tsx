@@ -1,7 +1,6 @@
 import { Link } from "@/shared/routing";
 import { Youtube } from "lucide-react";
-import SiTelegram from "@icons-pack/react-simple-icons/icons/SiTelegram";
-import SiX from "@icons-pack/react-simple-icons/icons/SiX";
+import { SiTelegram, SiX } from "@icons-pack/react-simple-icons";
 
 const productLinks = [
   { label: "Главная", to: "/" },

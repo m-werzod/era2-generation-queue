@@ -1,11 +1,11 @@
 import { cn } from "@/shared/lib/utils";
 import { Zap } from "lucide-react";
+import { ModelGlyph } from "@/shared/ui/era";
 
 export interface GridModel {
   name: string;
   desc: string;
   isNew?: boolean;
-  icon?: string;
   credits?: number;
 }
 
@@ -29,9 +29,7 @@ export function ModelsGrid({ title, models, onSelect }: ModelsGridProps) {
             onMouseOver={(e) => { e.currentTarget.style.borderColor = "var(--border-hover)"; }}
             onMouseOut={(e) => { e.currentTarget.style.borderColor = "var(--border-primary)"; }}
           >
-            <span className="w-8 h-8 rounded-full bg-gradient-to-br from-[hsl(var(--primary))] to-[#ff7a3d] flex items-center justify-center text-white text-sm shrink-0">
-              {m.icon || "✦"}
-            </span>
+            <ModelGlyph name={m.name} size={32} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="text-[13px] font-bold" style={{ color: "var(--text-primary)" }}>{m.name}</span>

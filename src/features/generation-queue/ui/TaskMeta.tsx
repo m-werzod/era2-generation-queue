@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Clock3, Hourglass } from "lucide-react";
 import type { GenerationTask } from "@/entities/generation-task";
-import { CreditTag, getModelIcon } from "@/shared/ui/era";
+import { CreditTag, ModelGlyph } from "@/shared/ui/era";
 import { cn } from "@/shared/lib/utils";
 import { formatEta } from "../lib/formatEta";
 
@@ -41,7 +41,6 @@ export interface TaskMetaProps {
 
 /** One-line metadata: model pill · contextual metric · credits. */
 export function TaskMeta({ task, position, className }: TaskMetaProps) {
-  const ModelIcon = getModelIcon(task.providerId);
   const metric = contextMetric(task, position);
 
   return (
@@ -52,7 +51,7 @@ export function TaskMeta({ task, position, className }: TaskMetaProps) {
       )}
     >
       <span className="inline-flex items-center gap-1.5">
-        <ModelIcon className="size-3.5 text-primary/80" strokeWidth={1.75} aria-hidden />
+        <ModelGlyph name={task.modelName} size={16} />
         <span className="font-mono text-[12px] text-foreground/75">{task.modelName}</span>
       </span>
       {metric && (

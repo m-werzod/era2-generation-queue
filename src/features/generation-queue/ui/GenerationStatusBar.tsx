@@ -3,7 +3,7 @@ import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronUp, Loader2, Minus } from "lucide-react";
 import type { GenerationTask } from "@/entities/generation-task";
 import { useLocation, useNavigate } from "@/shared/routing";
-import { getModelIcon } from "@/shared/ui/era";
+import { ModelGlyph } from "@/shared/ui/era";
 import { cn } from "@/shared/lib/utils";
 import { selectActiveTasks, selectSummary } from "../model/selectors";
 import { useQueueState } from "../model/useQueue";
@@ -204,16 +204,10 @@ function ExpandedCard({
 }
 
 function MiniItem({ task }: { task: GenerationTask }) {
-  const Icon = getModelIcon(task.providerId);
   const isRunning = task.status === "running";
   return (
     <li className="flex items-center gap-2.5">
-      <span
-        className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-secondary text-muted-foreground"
-        aria-hidden
-      >
-        <Icon className="size-3.5" strokeWidth={1.75} />
-      </span>
+      <ModelGlyph name={task.modelName} size={28} className="shrink-0" />
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
           <span className="truncate text-[12px] text-foreground/85">{task.modelName}</span>
