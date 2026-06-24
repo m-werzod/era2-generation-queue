@@ -38,7 +38,7 @@ export function DesignCreativitySection() {
 
   return (
     <motion.section
-      className="max-w-[1200px] mx-auto px-4"
+      className="max-w-300 mx-auto px-4"
       style={{ padding: "80px 0" }}
       initial="hidden"
       whileInView="show"

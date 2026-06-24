@@ -93,7 +93,7 @@ const Index = () => {
           variants={stagger}
         >
           <motion.div variants={fadeUp} className="mb-5 inline-block">
-            <Eyebrow>● ERA2 · AI AGGREGATOR</Eyebrow>
+            <Eyebrow>ERA2 · AI AGGREGATOR</Eyebrow>
           </motion.div>
           <motion.h1
             variants={fadeUp}

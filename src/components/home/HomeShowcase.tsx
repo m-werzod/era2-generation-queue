@@ -5,10 +5,10 @@ import { searchableModels, type SearchableModelType } from "@/config/searchableM
 import { useCases } from "@/config/useCases";
 
 const eyebrowLabel: Record<SearchableModelType, string> = {
-  text: "● ТЕКСТОВЫЕ МОДЕЛИ",
-  image: "● МОДЕЛИ ИЗОБРАЖЕНИЙ",
-  video: "● ВИДЕО-МОДЕЛИ",
-  audio: "● АУДИО-МОДЕЛИ",
+  text: "ТЕКСТОВЫЕ МОДЕЛИ",
+  image: "МОДЕЛИ ИЗОБРАЖЕНИЙ",
+  video: "ВИДЕО-МОДЕЛИ",
+  audio: "АУДИО-МОДЕЛИ",
 };
 
 interface Props {
@@ -40,7 +40,7 @@ export function HomeShowcase({ type, onPickPrompt }: Props) {
 
       {/* ─── Use cases ─── */}
       <section className="max-w-6xl mx-auto px-6 mt-16">
-        <Eyebrow>● ИДЕИ ДЛЯ СТАРТА</Eyebrow>
+        <Eyebrow>ИДЕИ ДЛЯ СТАРТА</Eyebrow>
         <h2 className="text-2xl font-semibold tracking-tight mt-3 mb-6 text-foreground">
           С чего начать?
         </h2>

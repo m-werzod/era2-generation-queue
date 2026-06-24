@@ -10,25 +10,25 @@ import type { IconType } from "@lobehub/icons";
  * `Combine`, which pulls in `@lobehub/ui` + `antd` we don't otherwise need.
  */
 import OpenAIMono from "@lobehub/icons/es/OpenAI/components/Mono";
-import ClaudeColor from "@lobehub/icons/es/Claude/components/Color";
+import ClaudeMono from "@lobehub/icons/es/Claude/components/Mono";
 import GeminiColor from "@lobehub/icons/es/Gemini/components/Color";
 import GoogleColor from "@lobehub/icons/es/Google/components/Color";
 import MidjourneyMono from "@lobehub/icons/es/Midjourney/components/Mono";
-import NanoBananaColor from "@lobehub/icons/es/NanoBanana/components/Color";
-import SoraColor from "@lobehub/icons/es/Sora/components/Color";
+import NanoBananaInner from "@lobehub/icons/es/NanoBanana/components/Inner";
+import SoraInner from "@lobehub/icons/es/Sora/components/Inner";
 import KlingColor from "@lobehub/icons/es/Kling/components/Color";
 import SunoMono from "@lobehub/icons/es/Suno/components/Mono";
 import ElevenLabsMono from "@lobehub/icons/es/ElevenLabs/components/Mono";
-import DeepSeekColor from "@lobehub/icons/es/DeepSeek/components/Color";
+import DeepSeekMono from "@lobehub/icons/es/DeepSeek/components/Mono";
 import GrokMono from "@lobehub/icons/es/Grok/components/Mono";
-import PerplexityColor from "@lobehub/icons/es/Perplexity/components/Color";
-import QwenColor from "@lobehub/icons/es/Qwen/components/Color";
-import AlibabaColor from "@lobehub/icons/es/Alibaba/components/Color";
+import PerplexityMono from "@lobehub/icons/es/Perplexity/components/Mono";
+import QwenMono from "@lobehub/icons/es/Qwen/components/Mono";
+import AlibabaMono from "@lobehub/icons/es/Alibaba/components/Mono";
 import FluxMono from "@lobehub/icons/es/Flux/components/Mono";
-import ByteDanceColor from "@lobehub/icons/es/ByteDance/components/Color";
+import ByteDanceMono from "@lobehub/icons/es/ByteDance/components/Mono";
 import RunwayMono from "@lobehub/icons/es/Runway/components/Mono";
 import HailuoColor from "@lobehub/icons/es/Hailuo/components/Color";
-import ViduColor from "@lobehub/icons/es/Vidu/components/Color";
+import ViduMono from "@lobehub/icons/es/Vidu/components/Mono";
 import HedraMono from "@lobehub/icons/es/Hedra/components/Mono";
 
 /** Real brand logo + the tile background/foreground it's meant to sit on. */
@@ -41,30 +41,37 @@ interface BrandEntry {
 }
 
 /* Map model / provider name prefix → official brand icon */
+/*
+ * (Icon, bg, fg) below mirrors each brand's own `Avatar` recipe in
+ * @lobehub/icons exactly (same Mono/Color/Inner pick + same background).
+ * Deviating from it is what caused invisible icons before: e.g. Claude's
+ * `Color` glyph is filled with `#D97757` — identical to its own brand
+ * background — so it's only ever legible via `Mono` + a white overlay.
+ */
 const BRAND_BY_KEY: Record<string, BrandEntry> = {
   "chatgpt": { Icon: OpenAIMono, isColor: false, bg: "#000", fg: "#fff" },
   "gpt image": { Icon: OpenAIMono, isColor: false, bg: "#000", fg: "#fff" },
-  "claude": { Icon: ClaudeColor, isColor: true, bg: "#D97757" },
+  "claude": { Icon: ClaudeMono, isColor: false, bg: "#D97757", fg: "#fff" },
   "gemini": { Icon: GeminiColor, isColor: true, bg: "#fff" },
   "imagen": { Icon: GoogleColor, isColor: true, bg: "#fff" },
   "veo": { Icon: GoogleColor, isColor: true, bg: "#fff" },
   "grok": { Icon: GrokMono, isColor: false, bg: "#000", fg: "#fff" },
-  "deepseek": { Icon: DeepSeekColor, isColor: true, bg: "#4D6BFE" },
-  "perplexity": { Icon: PerplexityColor, isColor: true, bg: "#22B8CD" },
-  "qwen": { Icon: QwenColor, isColor: true, bg: "#615ced" },
-  "nano banana": { Icon: NanoBananaColor, isColor: true, bg: "#FCD53F" },
+  "deepseek": { Icon: DeepSeekMono, isColor: false, bg: "#4D6BFE", fg: "#fff" },
+  "perplexity": { Icon: PerplexityMono, isColor: false, bg: "#22B8CD", fg: "#000" },
+  "qwen": { Icon: QwenMono, isColor: false, bg: "#615ced", fg: "#fff" },
+  "nano banana": { Icon: NanoBananaInner, isColor: true, bg: "#FCD53F" },
   "midjourney": { Icon: MidjourneyMono, isColor: false, bg: "#fff", fg: "#000" },
-  "seedream": { Icon: ByteDanceColor, isColor: true, bg: "#325AB4" },
-  "seedance": { Icon: ByteDanceColor, isColor: true, bg: "#325AB4" },
+  "seedream": { Icon: ByteDanceMono, isColor: false, bg: "#325AB4", fg: "#fff" },
+  "seedance": { Icon: ByteDanceMono, isColor: false, bg: "#325AB4", fg: "#fff" },
   "kling": { Icon: KlingColor, isColor: true, bg: "#000" },
-  "sora": { Icon: SoraColor, isColor: true, bg: "linear-gradient(180deg, #012659 0%, #0968DA 100%)" },
-  "wan": { Icon: AlibabaColor, isColor: true, bg: "#FF6003" },
+  "sora": { Icon: SoraInner, isColor: true, bg: "linear-gradient(180deg, #012659 0%, #0968DA 100%)" },
+  "wan": { Icon: AlibabaMono, isColor: false, bg: "#FF6003", fg: "#fff" },
   "elevenlabs": { Icon: ElevenLabsMono, isColor: false, bg: "#fff", fg: "#000" },
   "suno": { Icon: SunoMono, isColor: false, bg: "#000", fg: "#fff" },
   "flux": { Icon: FluxMono, isColor: false, bg: "#fff", fg: "#000" },
   "runway": { Icon: RunwayMono, isColor: false, bg: "#fff", fg: "#000" },
   "hailuo": { Icon: HailuoColor, isColor: true, bg: "#fff" },
-  "vidu": { Icon: ViduColor, isColor: true, bg: "linear-gradient(to right, #40EDD8, #22D5FF, #047FFE)" },
+  "vidu": { Icon: ViduMono, isColor: false, bg: "linear-gradient(to right, #40EDD8, #22D5FF, #047FFE)", fg: "#fff" },
   "hedra": { Icon: HedraMono, isColor: false, bg: "#000", fg: "#fff" },
 };
 

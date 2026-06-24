@@ -1,5 +1,7 @@
 import { Link } from "@/shared/routing";
-import { Send, Youtube, Twitter } from "lucide-react";
+import { Youtube } from "lucide-react";
+import SiTelegram from "@icons-pack/react-simple-icons/icons/SiTelegram";
+import SiX from "@icons-pack/react-simple-icons/icons/SiX";
 
 const productLinks = [
   { label: "Главная", to: "/" },
@@ -76,9 +78,9 @@ export function Footer() {
           </p>
           <div className="flex gap-2 mt-5">
             {[
-              { Icon: Send, label: "Telegram" },
+              { Icon: SiTelegram, label: "Telegram" },
               { Icon: Youtube, label: "YouTube" },
-              { Icon: Twitter, label: "X" },
+              { Icon: SiX, label: "X" },
             ].map(({ Icon, label }) => (
               <a
                 key={label}

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/features/auth";
 import { useNavigate } from "@/shared/routing";
 import { Mail, Lock, User, ArrowRight, Eye, EyeOff } from "lucide-react";
+import SiTelegram from "@icons-pack/react-simple-icons/icons/SiTelegram";
+import SiGoogle from "@icons-pack/react-simple-icons/icons/SiGoogle";
+import SiVk from "@icons-pack/react-simple-icons/icons/SiVk";
 
 const AuthPage = () => {
   const { login } = useAuth();
@@ -120,10 +123,10 @@ const AuthPage = () => {
 
         {/* Social buttons */}
         <div className="grid grid-cols-2 gap-2.5 mb-5">
-          <SocialButton icon={<span className="text-base">✈️</span>} label="Telegram" />
+          <SocialButton icon={<SiTelegram size={16} color="default" />} label="Telegram" />
           <SocialButton icon={<span className="text-base font-bold text-[#FC3F1D]">Я</span>} label="Яндекс" />
-          <SocialButton icon={<span className="text-base">G</span>} label="Google" />
-          <SocialButton icon={<span className="text-base font-bold text-[#0077FF]">VK</span>} label="VK" />
+          <SocialButton icon={<SiGoogle size={16} color="default" />} label="Google" />
+          <SocialButton icon={<SiVk size={16} color="default" />} label="VK" />
         </div>
 
         {/* Divider */}

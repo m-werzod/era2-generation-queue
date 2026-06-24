@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { X, Gift, Check } from "lucide-react";
+import { X, Gift, Check, Flame } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const DAYS = [
@@ -11,6 +11,8 @@ const DAYS = [
   { day: 6, credits: 4 },
   { day: 7, credits: 15, isBonus: true },
 ];
+
+const TOTAL_CREDITS = DAYS.reduce((sum, d) => sum + d.credits, 0);
 
 export function DailyCheckIn() {
   const [open, setOpen] = useState(false);
@@ -58,37 +60,48 @@ export function DailyCheckIn() {
             style={{
               background: "hsl(var(--card))",
               border: "1px solid hsl(var(--border))",
+              boxShadow: "0 24px 60px -20px rgba(0,0,0,0.45)",
             }}
           >
             <button
               onClick={() => setOpen(false)}
               aria-label="Закрыть"
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
-            <div className="text-4xl mb-3">🔥</div>
+            <div className="relative w-16 h-16 mx-auto mb-4">
+              <div
+                className="absolute inset-0 rounded-full blur-lg opacity-50"
+                style={{ background: "radial-gradient(circle, #ff7a3d, transparent 70%)" }}
+                aria-hidden
+              />
+              <div className="gradient-accent glow-accent relative w-16 h-16 rounded-full flex items-center justify-center">
+                <Flame size={28} className="text-white" fill="currentColor" fillOpacity={0.2} strokeWidth={2} />
+              </div>
+            </div>
 
-            <h2 className="text-xl font-bold text-foreground mb-1">
+            <h2 className="text-[22px] font-bold text-foreground tracking-tight mb-1.5">
               Заходите 7 дней подряд
             </h2>
-            <p className="text-sm text-muted-foreground mb-5">
-              и получите до 33 кредитов бесплатно
+            <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
+              и получите до <span className="font-mono tabular-nums text-foreground font-semibold">{TOTAL_CREDITS}</span> кредитов бесплатно
             </p>
 
             <div
-              className="rounded-[12px] p-3 mb-5 flex items-center justify-center gap-2"
+              className="rounded-[14px] py-3 px-4 mb-5 flex items-center justify-center gap-2"
               style={{
-                background: "rgba(232,84,32,0.1)",
-                border: "1px solid rgba(232,84,32,0.2)",
+                background: "rgba(232,84,32,0.08)",
+                border: "1px solid rgba(232,84,32,0.22)",
               }}
             >
               <span className="text-sm text-foreground">
                 Вы на <span className="font-semibold">{streak}-м</span> дне
               </span>
+              <span className="w-1 h-1 rounded-full" style={{ background: "rgba(232,84,32,0.4)" }} aria-hidden />
               <span
-                className="text-sm font-bold font-mono"
+                className="text-sm font-bold font-mono tabular-nums"
                 style={{ color: "hsl(var(--primary))" }}
               >
                 +{current.credits} cr
@@ -100,35 +113,44 @@ export function DailyCheckIn() {
                 const done = d.day < streak;
                 const active = d.day === streak;
                 return (
-                  <div key={d.day} className="flex flex-col items-center gap-1">
+                  <div key={d.day} className="flex flex-col items-center gap-1.5">
                     <div
-                      className="w-full aspect-square rounded-[10px] flex items-center justify-center text-[11px] font-semibold transition-colors"
+                      className={`w-full aspect-square rounded-[10px] flex items-center justify-center text-[12px] font-bold font-mono tabular-nums transition-all ${active ? "day-pill-active" : ""}`}
                       style={{
                         background: done
-                          ? "hsl(var(--primary))"
-                          : active
-                            ? "rgba(232,84,32,0.15)"
-                            : "hsl(var(--secondary))",
-                        border: active
-                          ? "1px solid hsl(var(--primary))"
-                          : "1px solid hsl(var(--border))",
-                        color: done
-                          ? "white"
+                          ? "linear-gradient(135deg, hsl(var(--primary)), #ff7a3d)"
+                          : d.isBonus
+                            ? "linear-gradient(135deg, #ffc15e, #ff9d3d)"
+                            : active
+                              ? "hsl(var(--card))"
+                              : "hsl(var(--secondary))",
+                        boxShadow: done
+                          ? "0 4px 12px -4px rgba(232,84,32,0.55)"
+                          : d.isBonus
+                            ? "0 4px 12px -4px rgba(255,157,61,0.5)"
+                            : active
+                              ? "0 0 0 1.5px hsl(var(--primary))"
+                              : "0 0 0 1px hsl(var(--border))",
+                        color: done || d.isBonus
+                          ? "#fff"
                           : active
                             ? "hsl(var(--primary))"
                             : "hsl(var(--muted-foreground))",
                       }}
                     >
                       {done ? (
-                        <Check size={14} />
+                        <Check size={14} strokeWidth={2.5} />
                       ) : d.isBonus ? (
-                        <Gift size={14} />
+                        <Gift size={14} strokeWidth={2.25} />
                       ) : (
                         `+${d.credits}`
                       )}
                     </div>
-                    <span className="text-[10px] text-muted-foreground">
-                      День {d.day}
+                    <span
+                      className="text-[10px] font-mono tabular-nums"
+                      style={{ color: active ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))" }}
+                    >
+                      {d.day}
                     </span>
                   </div>
                 );
@@ -140,12 +162,22 @@ export function DailyCheckIn() {
               className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-[14px] text-sm font-semibold text-white transition-all hover:opacity-95"
               style={{
                 background: "linear-gradient(135deg, hsl(var(--primary)), #ff7a3d)",
-                boxShadow: "0 8px 22px -8px rgba(232,84,32,0.55)",
+                boxShadow: "0 8px 22px -8px rgba(232,84,32,0.55), inset 0 1px 0 rgba(255,255,255,0.25)",
               }}
             >
-              Забрать +{current.credits} кредитов
+              Забрать <span className="font-mono tabular-nums">+{current.credits}</span> кредитов
             </button>
           </motion.div>
+
+          <style>{`
+            @keyframes day-pill-pulse {
+              0%, 100% { box-shadow: 0 0 0 1.5px hsl(var(--primary)), 0 0 0 0 rgba(232,84,32,0.4); }
+              50% { box-shadow: 0 0 0 1.5px hsl(var(--primary)), 0 0 0 5px rgba(232,84,32,0); }
+            }
+            .day-pill-active {
+              animation: day-pill-pulse 2s ease-out infinite;
+            }
+          `}</style>
         </motion.div>
       )}
     </AnimatePresence>
