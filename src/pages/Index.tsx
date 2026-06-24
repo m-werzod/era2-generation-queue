@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "@/shared/routing";
 import { useAuth } from "@/features/auth";
 import { ArrowUp, Star } from "lucide-react";
-import { Eyebrow } from "@/shared/ui/era";
+import { Eyebrow, ModelGlyph } from "@/shared/ui/era";
 import { PromptWindow, type GenType } from "@/components/workspace/PromptWindow";
 
 import { Footer } from "@/components/shared/Footer";
@@ -25,6 +25,8 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 const stagger = { show: { transition: { staggerChildren: 0.08 } } };
+
+const PROOF_MODELS = ["ChatGPT", "Claude", "Gemini", "Midjourney", "Sora", "Suno"];
 
 const Index = () => {
   const { isAuthed } = useAuth();
@@ -77,8 +79,11 @@ const Index = () => {
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(232,84,32,0.18) 0%, rgba(255,122,61,0.06) 40%, transparent 70%)",
+            backgroundImage:
+              "radial-gradient(ellipse 80% 100% at 50% 0%, rgba(232,84,32,0.18) 0%, rgba(255,122,61,0.06) 40%, transparent 70%), radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)",
+            backgroundSize: "auto, 26px 26px",
+            backgroundPosition: "center, center",
+            maskImage: "linear-gradient(to bottom, black, transparent)",
           }}
         />
         <motion.div
@@ -96,18 +101,28 @@ const Index = () => {
           >
             Один ключ.
             <br />
-            Все модели.
+            <span className="gradient-accent-text">Все модели.</span>
           </motion.h1>
           <motion.p
             variants={fadeUp}
-            className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-6 leading-relaxed"
+            className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto mb-7 leading-relaxed"
           >
             Подключайтесь к ChatGPT, Claude, Gemini, Midjourney, Sora и ещё 90+ нейросетям через
             единую подписку. Оплата в рублях, без VPN.
           </motion.p>
+
           <motion.div
             variants={fadeUp}
-            className="flex items-center justify-center gap-1.5 text-sm text-muted-foreground"
+            className="flex items-center justify-center gap-2.5 mb-5"
+          >
+            {PROOF_MODELS.map((m) => (
+              <ModelGlyph key={m} name={m} size={30} />
+            ))}
+          </motion.div>
+
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-wrap items-center justify-center gap-1.5 text-sm text-muted-foreground"
           >
             <div className="flex">
               {[...Array(5)].map((_, i) => (
